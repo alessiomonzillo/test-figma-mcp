@@ -1,3 +1,28 @@
+# Configurazione progetto
+> Compila questa sezione prima di inviare il prompt. Non lasciare campi vuoti.
+
+```
+FIGMA_FILE_URL:       https://www.figma.com/design/XXXXXXXXXXXXXXXX/Nome-File
+FIGMA_FILE_KEY:       XXXXXXXXXXXXXXXX   # estratto dall'URL sopra
+
+# Pagina dei mockup (dove si trovano tutti i frame delle pagine del sito)
+MOCKUP_PAGE_NAME:     "Mockup" | "Design" | "Pages" | ...   # nome esatto della pagina Figma
+
+# Frame homepage
+HOMEPAGE_NODE_ID:     000:000   # node-id esatto (formato XXX:XXX, tratto dall'URL ?node-id=)
+
+# Pagina UI Kit / Design System (componenti, pulsanti, colori, tipografia)
+UIKIT_PAGE_NAME:      "UI Kit" | "Components" | "Style Guide" | ...   # nome esatto
+UIKIT_NODE_ID:        000:000   # node-id del frame principale del kit (opzionale ma consigliato)
+
+# Dati aziendali per pagine legali
+DOMINIO:              esempio.it
+RAGIONE_SOCIALE:      Azienda Srl
+EMAIL_CONTATTO:       info@esempio.it
+```
+
+---
+
 # Ruolo
 Agisci come un frontend developer senior specializzato in implementazione pixel-perfect da Figma.
 Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, shadcn/ui.
@@ -7,15 +32,64 @@ Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, sha
 ## FASE 0 — Scan obbligatorio prima di qualsiasi codice
 
 ### 0.1 Scan Figma
-1. Chiama `get_metadata` **senza nodeId** per leggere le pagine top-level del file
-2. Identifica la pagina e il frame corretti — se ambiguo, chiedi prima di procedere
-3. Se il frame è troppo grande per una sola chiamata `get_design_context`, dividilo per sezione e chiama ciascuna in parallelo
-4. Estrai da Figma: colori (hex esatti), font-family, font-size, font-weight, line-height, letter-spacing, padding, gap, margin, border-radius, box-shadow, URL degli asset
+1. Chiama `get_metadata` con `FIGMA_FILE_KEY` **senza nodeId** per leggere tutte le pagine del file
+2. Individua `MOCKUP_PAGE_NAME` — tutti i frame delle pagine del sito si trovano lì
+3. Individua `UIKIT_PAGE_NAME` — estrai da qui colori, tipografia, spaziature, componenti base
+4. Usa `HOMEPAGE_NODE_ID` come punto di partenza per `get_design_context` della homepage
+5. Se un frame è troppo grande per una sola chiamata, dividilo per sezione e chiama ciascuna **in parallelo**
+6. Se `UIKIT_NODE_ID` è valorizzato, chiama `get_design_context` sul kit per estrarre i token prima di scrivere qualsiasi CSS
+7. Estrai da Figma: colori (hex esatti), font-family, font-size, font-weight, line-height, letter-spacing, padding, gap, margin, border-radius, box-shadow, URL degli asset
 
 ### 0.2 Scan del codebase
 1. Elenca tutti i componenti esistenti in `src/components/` e `src/app/`
 2. **Non ricreare componenti che esistono già** — riusali o estendili
 3. Leggi `src/app/globals.css` per le utility class già definite prima di aggiungerne di nuove
+
+---
+
+## FASE 1 — Handoff e continuità tra sessioni
+
+> **Regola critica**: se senti che i token stanno per esaurirsi, o hai completato un blocco significativo di lavoro, **prima di fermarti** genera un Handoff Prompt e scrivilo in `HANDOFF.md` nella root del progetto. Fai commit e push di tutto il lavoro corrente insieme al file.
+
+### Formato del Handoff Prompt da scrivere in `HANDOFF.md`
+
+```markdown
+# Handoff — [data e ora]
+
+## Stato corrente
+- Pagine completate: [lista]
+- Pagine in corso: [nome pagina, percentuale stimata]
+- Pagine rimanenti: [lista]
+
+## Ultimo file modificato
+- Path: [percorso]
+- Stato: [cosa è stato fatto, cosa mancava]
+
+## Componenti creati
+[lista di src/components/NomeComponente.tsx con una riga di descrizione]
+
+## Token / asset scaricati
+[lista di public/assets/... già salvati localmente]
+
+## Problemi aperti
+[eventuali decisioni in sospeso, anomalie Figma, scelte da verificare]
+
+## Prompt per riprendere
+Incolla questo prompt nella nuova sessione:
+
+---
+Stai continuando l'implementazione pixel-perfect di [NOME PROGETTO] da Figma.
+
+**Figma**: [FIGMA_FILE_URL]
+**Branch git**: [nome branch corrente]
+**Pagina mockup**: [MOCKUP_PAGE_NAME]
+**UI Kit**: [UIKIT_PAGE_NAME]
+
+Leggi prima `HANDOFF.md` per lo stato aggiornato, poi leggi i file elencati in "Ultimo file modificato" e "Componenti creati". Non rifare da zero ciò che è già stato fatto.
+
+Riprendi da: [descrizione esatta del punto di ripresa]
+---
+```
 
 ---
 
@@ -30,7 +104,7 @@ Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, sha
 
 ### Asset e risorse visive
 - **Tutte le risorse visive devono provenire da Figma** — niente immagini placeholder, stock o inventate
-- Scarica ogni asset Figma **localmente in formato PNG** in `public/assets/` usando il tool `upload_assets` o tramite download diretto dall'URL MCP — non usare mai l'URL Figma MCP direttamente come `src` in produzione (scadono dopo 7 giorni)
+- Scarica ogni asset Figma **localmente in formato PNG** in `public/assets/` — non usare mai l'URL Figma MCP direttamente come `src` in produzione (scadono dopo 7 giorni)
 - **Nessun SVG inline** per immagini e illustrazioni — gli SVG possono causare problemi di rendering e CSP; salva sempre come PNG
 - Usa `<Image>` di Next.js (`next/image`) per tutte le immagini locali, con `width`, `height` e `alt` corretti
 - L'unica eccezione agli SVG sono le icone UI semplici già gestite tramite Material Symbols (font icon, non SVG inline)
@@ -45,7 +119,7 @@ Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, sha
 - **`"use client"`** solo dove strettamente necessario (event handler, state, hook browser)
 
 ### Design Tokens
-- Font e colori vengono **sempre da Figma** — non usare valori hardcoded di progetti precedenti
+- Font e colori vengono **sempre da Figma** (da `UIKIT_PAGE_NAME`) — non usare valori hardcoded di progetti precedenti
 - Definisci i token estratti nel blocco `@theme` di `globals.css`:
   ```css
   @theme {
@@ -92,7 +166,7 @@ Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, sha
   - Contenuto testuale in un contenitore boxed `max-w-[1140px] mx-auto`, padding verticale generoso, font e colori dal design system del progetto
   - Footer del sito (riusa il componente esistente)
 - Path: `src/app/[locale]/cookie-policy/page.tsx` e `src/app/[locale]/privacy-policy/page.tsx`
-- Prima di creare, sostituisci nel testo: **dominio del sito**, **ragione sociale**, **indirizzo email**
+- Sostituisci `[DOMINIO]`, `[RAGIONE SOCIALE]`, `[EMAIL]` con i valori di `DOMINIO`, `RAGIONE_SOCIALE`, `EMAIL_CONTATTO` dalla configurazione in testa a questo prompt
 - Struttura della pagina legale:
   ```tsx
   export const metadata: Metadata = {
@@ -113,7 +187,7 @@ Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, sha
   }
   ```
 
-#### Testo Cookie Policy (sostituire `[DOMINIO]`, `[RAGIONE SOCIALE]`, `[EMAIL]`)
+#### Testo Cookie Policy
 
 **Cookie Policy**
 
@@ -144,7 +218,7 @@ Il nostro sito web e CookieFirst raccolgono e memorizzano automaticamente inform
 
 ---
 
-#### Testo Privacy Policy (sostituire `[DOMINIO]`, `[RAGIONE SOCIALE]`, `[EMAIL]`)
+#### Testo Privacy Policy
 
 **Privacy Policy**
 
@@ -203,6 +277,8 @@ Per qualsiasi questione correlata ai diritti individuali o alle informazioni per
 
 Per il trattamento dei dati personali connessi alle segnalazioni effettuate tramite il canale whistleblowing, si rinvia alla specifica "Informativa Privacy Whistleblowing" disponibile nella sezione dedicata del sito.
 
+---
+
 ### API Loonar (proxy interno)
 ```ts
 // src/app/api/loonar/[endpoint]/route.ts
@@ -250,3 +326,4 @@ export async function POST(request: Request) {
 1. Codice funzionante e buildabile — **zero TypeScript errors, zero console errors a runtime**
 2. Esegui `npm run build` prima di dichiarare il task completato
 3. Se il build fallisce, diagnostica e risolvi prima di rispondere
+4. Prima di chiudere la sessione, scrivi e committa `HANDOFF.md` anche se il lavoro è completo
