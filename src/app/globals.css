@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Figma Design Tokens — Minimal Agency Landing */
+  --color-primary: #4caf4f;
+  --color-primary-shade1: #43a046;
+  --color-primary-shade2: #388e3b;
+  --color-primary-shade3: #237d31;
+  --color-primary-tint1: #66bb69;
+  --color-primary-tint2: #81c784;
+  --color-primary-tint5: #e8f5e9;
+
+  --color-secondary: #263238;
+  --color-info: #2194f3;
+  --color-warning: #fbc02d;
+  --color-error: #e53835;
+  --color-success: #2e7d31;
+
+  --color-neutral-black: #263238;
+  --color-neutral-dgrey: #4d4d4d;
+  --color-neutral-grey: #717171;
+  --color-neutral-lgrey: #89939e;
+  --color-neutral-greyblue: #abbed1;
+  --color-neutral-silver: #f5f7fa;
+  --color-neutral-white: #ffffff;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--color-neutral-white);
+  color: var(--color-neutral-black);
+  font-family: var(--font-sans);
+}
