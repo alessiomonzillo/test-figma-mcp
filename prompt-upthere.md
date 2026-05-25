@@ -22,12 +22,18 @@ Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, sha
 ## Regole implementative — Zero Creatività
 
 - Ogni valore di spacing, colore, font-size **deve venire da Figma**. Non inventare, non approssimare.
-- Usa direttamente gli URL degli asset Figma MCP come `src` delle `<img>` — non ricreare icone o illustrazioni come SVG/JSX salvo icone monocromatiche semplici già disponibili come Material Symbols
 - Per illustrazioni a layer: contenitore `relative` con dimensioni fisse, figli `absolute` con `style={{ top, right, bottom, left }}` usando le percentuali o i px estratti da Figma
 - Se il canvas Figma è più piccolo del viewport target, calcola il **scale factor = larghezza target / larghezza canvas** e moltiplica tutti i valori px
 - Le istanze di componenti master Figma potrebbero già essere a scala piena — verifica prima di scalare
 - Rispetta la struttura layout originale: se Figma usa `justify-between`, replicalo; se usa una griglia fissa, replicala esattamente
 - Larghezza massima dei contenitori "boxed": **1140px**, centrata con `mx-auto`
+
+### Asset e risorse visive
+- **Tutte le risorse visive devono provenire da Figma** — niente immagini placeholder, stock o inventate
+- Scarica ogni asset Figma **localmente in formato PNG** in `public/assets/` usando il tool `upload_assets` o tramite download diretto dall'URL MCP — non usare mai l'URL Figma MCP direttamente come `src` in produzione (scadono dopo 7 giorni)
+- **Nessun SVG inline** per immagini e illustrazioni — gli SVG possono causare problemi di rendering e CSP; salva sempre come PNG
+- Usa `<Image>` di Next.js (`next/image`) per tutte le immagini locali, con `width`, `height` e `alt` corretti
+- L'unica eccezione agli SVG sono le icone UI semplici già gestite tramite Material Symbols (font icon, non SVG inline)
 
 ---
 
@@ -58,7 +64,9 @@ Stack: Next.js (ultima versione stable), TypeScript strict, Tailwind CSS v4, sha
 
 ### Icone
 - **Material Symbols esclusivamente** — importa via `<span className="material-symbols-outlined">icon_name</span>`
-- Non usare FontAwesome, Heroicons, Lucide o SVG inline salvo eccezioni esplicite
+- Non usare FontAwesome, Heroicons, Lucide o SVG inline
+- **Non ricreare icone come SVG** — se un'icona esiste in Material Symbols, usala come font icon; se non esiste, scaricala da Figma come PNG in `public/assets/icons/`
+- Non usare SVG esportati da Figma come componenti React inline
 
 ### SEO
 - Gestita lato Next.js senza CMS esterni
