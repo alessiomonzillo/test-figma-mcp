@@ -1,10 +1,18 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 export default function Newsletter() {
   return (
     <section className="py-20 bg-white">
       <div className="max-w-[700px] mx-auto px-6 text-center">
-        <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#e8f5e9] mb-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.4 }}
+          className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#e8f5e9] mb-6"
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path
               d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
@@ -21,17 +29,34 @@ export default function Newsletter() {
               strokeLinejoin="round"
             />
           </svg>
-        </div>
+        </motion.div>
 
-        <h2 className="text-[32px] md:text-[38px] font-bold text-[#263238] leading-[1.25] mb-4">
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, delay: 0.1 }}
+          className="text-[32px] md:text-[38px] font-bold text-[#263238] leading-[1.25] mb-4"
+        >
           Get weekly insights for your photography business
-        </h2>
-        <p className="text-[#89939e] text-[17px] leading-relaxed mb-8">
+        </motion.h2>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="text-[#89939e] text-[17px] leading-relaxed mb-8"
+        >
           Join 2,000+ photographers receiving actionable strategies on website
           growth, client acquisition, and pricing every Tuesday.
-        </p>
+        </motion.p>
 
-        <form
+        <motion.form
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
           className="flex flex-col sm:flex-row gap-3 max-w-[480px] mx-auto"
           onSubmit={(e) => e.preventDefault()}
         >
@@ -40,17 +65,17 @@ export default function Newsletter() {
             placeholder="Enter your email address"
             className="flex-1 px-5 py-3.5 border border-[#abbed1] rounded-md text-[15px] text-[#263238] placeholder:text-[#abbed1] focus:outline-none focus:border-[#4caf4f] focus:ring-1 focus:ring-[#4caf4f]"
           />
-          <button
+          <motion.button
             type="submit"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
             className="bg-[#4caf4f] hover:bg-[#43a046] text-white font-semibold px-7 py-3.5 rounded-md text-[15px] transition-colors duration-200 whitespace-nowrap"
           >
             Subscribe
-          </button>
-        </form>
+          </motion.button>
+        </motion.form>
 
-        <p className="mt-4 text-[#abbed1] text-[13px]">
-          No spam. Unsubscribe anytime.
-        </p>
+        <p className="mt-4 text-[#abbed1] text-[13px]">No spam. Unsubscribe anytime.</p>
       </div>
     </section>
   );
