@@ -1,111 +1,62 @@
-"use client";
+// Community section — replaces old Features
+// Cards: Membership Organisations / National Associations / Clubs And Groups
+// Icon container: 65×56px, leaf-shaped green bg + icon image on top
 
-import { motion } from "framer-motion";
+const imgIconMembership = "https://www.figma.com/api/mcp/asset/55541027-4128-46d8-943b-a4176539aabb";
+const imgIconNational = "https://www.figma.com/api/mcp/asset/1f1eb0ee-88e8-4a4c-b276-c45b54b847a7";
+const imgIconClubs = "https://www.figma.com/api/mcp/asset/25a98cca-b869-4a4e-8b8f-55f7cc8165a3";
 
-const features = [
+const cards = [
   {
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="6" fill="#e8f5e9" />
-        <path d="M14 7v14M7 14h14" stroke="#4caf4f" strokeWidth="2.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Website vs Social",
-    description: "We compare real-world results: organic reach, client acquisition, and revenue — website wins in long-term ROI.",
+    title: "Membership Organisations",
+    desc: "Our membership management software provides full automation of membership renewals and payments",
+    icon: imgIconMembership,
+    iconInset: null,
   },
   {
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="6" fill="#e8f5e9" />
-        <circle cx="14" cy="14" r="6" stroke="#4caf4f" strokeWidth="2.5" />
-        <circle cx="14" cy="14" r="2" fill="#4caf4f" />
-      </svg>
-    ),
-    title: "8-Year Data Insights",
-    description: "Aggregated from hundreds of photography businesses, our data shows clear patterns on what actually drives bookings.",
+    title: "National Associations",
+    desc: "Our membership management software provides full automation of membership renewals and payments",
+    icon: imgIconNational,
+    iconInset: { top: "18.75%", right: "13.38%", bottom: "18.31%", left: "12.5%" },
   },
   {
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="6" fill="#e8f5e9" />
-        <path d="M8 18l4-6 4 4 4-8" stroke="#4caf4f" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
-    ),
-    title: "Growth Playbook",
-    description: "Step-by-step strategies used by top photographers to build authority, attract dream clients, and scale sustainably.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="6" fill="#e8f5e9" />
-        <path d="M9 14h10M9 10h10M9 18h6" stroke="#4caf4f" strokeWidth="2.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Content Strategy",
-    description: "Learn how to create content that converts — from portfolio pages to SEO blog posts that rank and bring enquiries.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="6" fill="#e8f5e9" />
-        <circle cx="11" cy="13" r="3" stroke="#4caf4f" strokeWidth="2.5" />
-        <circle cx="19" cy="13" r="3" stroke="#4caf4f" strokeWidth="2.5" />
-        <path d="M14 13h2" stroke="#4caf4f" strokeWidth="2" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Community Access",
-    description: "Join thousands of photographers sharing lessons, wins, and strategies across niches — weddings, portraits, commercial.",
-  },
-  {
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-        <rect width="28" height="28" rx="6" fill="#e8f5e9" />
-        <rect x="8" y="10" width="12" height="9" rx="2" stroke="#4caf4f" strokeWidth="2.5" />
-        <path d="M11 10V9a3 3 0 016 0v1" stroke="#4caf4f" strokeWidth="2.5" strokeLinecap="round" />
-      </svg>
-    ),
-    title: "Exclusive Courses",
-    description: "In-depth modules on building a brand, pricing strategy, and converting enquiries — for every stage of your journey.",
+    title: "Clubs And Groups",
+    desc: "Our membership management software provides full automation of membership renewals and payments",
+    icon: imgIconClubs,
+    iconInset: { top: "18.75%", right: "15.96%", bottom: "18.75%", left: "16.6%" },
   },
 ];
 
 export default function Features() {
   return (
-    <section className="py-20 bg-[#f5f7fa]">
-      <div className="max-w-[1200px] mx-auto px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-14"
-        >
-          <p className="text-[#4caf4f] font-semibold text-[14px] uppercase tracking-widest mb-3">
-            What we offer
-          </p>
-          <h2 className="text-[36px] font-bold text-[#263238] leading-[1.25]">
-            Everything you need to grow
+    <section className="bg-white py-16">
+      <div className="px-36">
+        <div className="text-center mb-12">
+          <h2 className="text-[36px] font-semibold text-[#4d4d4d] leading-tight mb-2">
+            Manage your entire community in a single system
           </h2>
-          <p className="mt-4 text-[#89939e] text-[17px] max-w-[520px] mx-auto leading-relaxed">
-            Built for photographers at every stage — from first website to full-time studio.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((f, i) => (
-            <motion.div
-              key={f.title}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -4, boxShadow: "0 12px 32px rgba(38,50,56,0.10)" }}
-              className="bg-white rounded-xl p-7 shadow-sm transition-shadow duration-200"
+          <p className="text-base text-[#717171]">Who is Nextcent suitable for?</p>
+        </div>
+        <div className="flex items-start justify-between gap-8">
+          {cards.map((card) => (
+            <div
+              key={card.title}
+              className="bg-white shadow-[0px_2px_2px_rgba(171,190,209,0.2)] flex flex-col gap-2 items-center px-8 py-6 rounded-[8px] flex-1"
             >
-              <div className="mb-4">{f.icon}</div>
-              <h3 className="text-[17px] font-bold text-[#263238] mb-2">{f.title}</h3>
-              <p className="text-[#89939e] text-[15px] leading-relaxed">{f.description}</p>
-            </motion.div>
+              <div className="relative shrink-0" style={{ width: 65, height: 56 }}>
+                {/* Leaf-shaped green background */}
+                <div
+                  className="absolute bg-[#e8f5e9]"
+                  style={{ top: 7, left: 15, width: 50, height: 49, borderRadius: "18px 5px 10px 5px" }}
+                />
+                {/* Icon image */}
+                <div className="absolute" style={card.iconInset ?? { top: 0, right: 0, bottom: 0, left: 0 }}>
+                  <img alt="" className="absolute inset-0 block max-w-none w-full h-full" src={card.icon} />
+                </div>
+              </div>
+              <h3 className="text-[28px] font-bold text-[#4d4d4d] text-center leading-tight mt-4">{card.title}</h3>
+              <p className="text-sm text-[#717171] text-center leading-5">{card.desc}</p>
+            </div>
           ))}
         </div>
       </div>

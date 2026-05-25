@@ -2,9 +2,11 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Clients from "@/components/Clients";
 import Features from "@/components/Features";
+import Unlock from "@/components/Unlock";
 import Stats from "@/components/Stats";
-import Articles from "@/components/Articles";
+import Calendar from "@/components/Calendar";
 import Newsletter from "@/components/Newsletter";
+import Articles from "@/components/Articles";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -13,10 +15,12 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Clients />
-      <Stats />
       <Features />
-      <Articles />
+      <Unlock />
+      <Stats />
+      <Calendar />
       <Newsletter />
+      <Articles />
       <Footer />
     </main>
   );

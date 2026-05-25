@@ -1,108 +1,45 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import NexcentLogo from "./icons/NexcentLogo";
-
-const navLinks = ["Home", "About", "Features", "Community", "Blog"];
+const imgNexcent = "https://www.figma.com/api/mcp/asset/0988ffea-0c5a-4a2c-9a47-a8dd03a298ee";
+const iconParts: [string, string, string, string, string][] = [
+  ["https://www.figma.com/api/mcp/asset/256c24a4-7f3a-4c16-a5ca-b0210cd3eabd", "51.29%", "42.2%", "0", "18.73%"],
+  ["https://www.figma.com/api/mcp/asset/f13f10bd-d13d-4d3f-b447-0b9965e6cbae", "0", "0", "51.29%", "60.91%"],
+  ["https://www.figma.com/api/mcp/asset/a555d175-99ad-4172-94b7-0ba5d01b54ba", "0", "65.7%", "56.91%", "0"],
+  ["https://www.figma.com/api/mcp/asset/0d92be46-4e65-4078-8891-5240490c3572", "3.77%", "44.54%", "53.38%", "21.05%"],
+  ["https://www.figma.com/api/mcp/asset/4f311ef2-59f6-4162-b876-32a23594232e", "55.98%", "22.9%", "0", "41.86%"],
+  ["https://www.figma.com/api/mcp/asset/513c59c8-380b-4058-b682-f8b733eb3a38", "53.31%", "2.47%", "3.34%", "63.62%"],
+];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <motion.nav
-      initial={{ y: -64, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className={`sticky top-0 z-50 w-full bg-white transition-shadow duration-300 ${
-        scrolled ? "shadow-md" : "border-b border-[#abbed1]"
-      }`}
-    >
-      <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" aria-label="Nexcent home">
-          <NexcentLogo />
-        </a>
-
-        {/* Desktop nav */}
-        <ul className="hidden md:flex items-center gap-8 text-[#263238] text-[15px]">
-          {navLinks.map((item, i) => (
-            <motion.li
-              key={item}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
-            >
-              <a
-                href="#"
-                className="relative group py-1 font-medium hover:text-[#4caf4f] transition-colors duration-200"
-              >
-                {item}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#4caf4f] transition-all duration-300 group-hover:w-full" />
-              </a>
-            </motion.li>
-          ))}
-        </ul>
-
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-4">
-          <a
-            href="#"
-            className="text-[#263238] text-[15px] font-semibold hover:text-[#4caf4f] transition-colors"
-          >
-            Login
-          </a>
-          <motion.a
-            href="#"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            className="bg-[#4caf4f] hover:bg-[#43a046] text-white text-[15px] font-semibold px-5 py-2.5 rounded-md transition-colors duration-200"
-          >
-            Sign up
-          </motion.a>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-        >
-          <span className={`block w-5 h-0.5 bg-[#263238] transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-          <span className={`block w-5 h-0.5 bg-[#263238] transition-all ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-5 h-0.5 bg-[#263238] transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <motion.div
-          initial={{ height: 0, opacity: 0 }}
-          animate={{ height: "auto", opacity: 1 }}
-          exit={{ height: 0, opacity: 0 }}
-          className="md:hidden border-t border-[#f5f7fa] bg-white px-6 pb-4"
-        >
-          <ul className="flex flex-col gap-4 pt-4">
-            {navLinks.map((item) => (
-              <li key={item}>
-                <a href="#" className="text-[#263238] font-medium hover:text-[#4caf4f]">
-                  {item}
-                </a>
-              </li>
+    <header className="bg-white sticky top-0 z-50 shadow-[0px_4px_8px_rgba(171,190,209,0.4)]">
+      <div className="flex items-center gap-16 px-36 py-4">
+        <a href="#" className="flex items-center gap-2 shrink-0">
+          <div className="relative shrink-0" style={{ width: 50, height: 34 }}>
+            {iconParts.map(([src, top, right, bottom, left], i) => (
+              <div key={i} className="absolute" style={{ top, right, bottom, left }}>
+                <img alt="" className="absolute inset-0 block max-w-none w-full h-full" src={src} />
+              </div>
             ))}
-            <li className="flex gap-3 pt-2">
-              <a href="#" className="text-[#4caf4f] font-semibold">Login</a>
-              <a href="#" className="bg-[#4caf4f] text-white font-semibold px-4 py-2 rounded-md text-sm">Sign up</a>
-            </li>
-          </ul>
-        </motion.div>
-      )}
-    </motion.nav>
+          </div>
+          <img alt="Nexcent" className="h-7 w-auto" src={imgNexcent} />
+        </a>
+        <div className="flex flex-1 items-center justify-end gap-8">
+          <nav className="flex items-center gap-6">
+            {["Home", "Features", "Community", "Blog", "Pricing"].map((item) => (
+              <a key={item} href="#" className="text-[#4d4d4d] text-base font-medium leading-6 hover:text-[#4caf4f] transition-colors whitespace-nowrap">
+                {item}
+              </a>
+            ))}
+          </nav>
+          <a href="#" className="bg-[#4caf4f] hover:bg-[#43a046] text-white text-base font-medium px-8 py-3.5 rounded-[4px] whitespace-nowrap transition-colors shrink-0 flex items-center gap-2">
+            Register Now
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </header>
   );
 }
